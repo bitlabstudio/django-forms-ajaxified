@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block main %}
+<h1>Dummy Template</h1>
+<form method="post" action="{% url "dummy_form_view" %}" data-class="form_ajaxified"></form>
+{% endblock %}
+
+{% block extra_script %}
+<script src="{% static "forms_ajaxified/js/forms_ajaxified.js" %}"></script>
+<script>
+    $(document).ready(function() {
+        $('[data-class="form_ajaxified"]').formsAjaxified();
+    });
+</script>
+{% endblock %}

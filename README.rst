@@ -79,7 +79,7 @@ reserves some space for its one or many forms to be loaded:
 
 .. code-block:: python
 
-    from django.contrib.views.generic import TemplateView
+    from django.views.generic import TemplateView
 
     class MyTemplateView(TemplateView):
         template_name = 'myapp/my_template_view.html'
@@ -104,7 +104,7 @@ load them all in a TemplateView that ties everything together:
 
 .. code-block:: python
 
-    from django.contrib.views.generic import FormView
+    from django.views.generic import FormView
     from forms_ajaxified.forms import AjaxifiedFormMixin
     from myapp.forms import MyForm
 

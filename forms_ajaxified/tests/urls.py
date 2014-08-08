@@ -7,5 +7,6 @@ admin.autodiscover()
 
 urlpatterns = patterns(
     '',
+    url(r'^', include('forms_ajaxified.tests.test_app.urls')),
     url(r'^admin/', include(admin.site.urls)),
 )
