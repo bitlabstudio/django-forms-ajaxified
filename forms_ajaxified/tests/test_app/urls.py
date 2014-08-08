@@ -9,7 +9,7 @@ urlpatterns = patterns(
     url(r'$',
         views.DummyTemplateView.as_view(),
         name='dummy_template_view'),
-    url(r'dummy-form/$',
+    url(r'dummy-form/(?P<pk>\d+)/$',
         views.DummyFormView.as_view(),
         name='dummy_form_view'),
 )

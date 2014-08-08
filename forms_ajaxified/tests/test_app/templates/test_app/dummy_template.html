@@ -3,7 +3,7 @@
 
 {% block main %}
 <h1>Dummy Template</h1>
-<form method="post" action="{% url "dummy_form_view" %}" data-class="form_ajaxified"></form>
+<form method="post" action="{% url "dummy_form_view" pk=1 %}" data-class="form_ajaxified"></form>
 {% endblock %}
 
 {% block extra_script %}
