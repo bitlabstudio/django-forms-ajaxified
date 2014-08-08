@@ -1,0 +1,9 @@
+include AUTHORS
+include LICENSE
+include DESCRIPTION
+include CHANGELOG.txt
+include README.md
+graft forms_ajaxified
+global-exclude *.orig *.pyc *.log *.swp
+prune forms_ajaxified/tests/coverage
+prune forms_ajaxified/.ropeproject
