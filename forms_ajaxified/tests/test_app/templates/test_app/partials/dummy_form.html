@@ -1,4 +1,8 @@
+{% csrf_token %}
 {% for field in form %}
-    <div>{{ field }}</div>
+    <div class="fieldWrapper">
+        {{ field.label_tag }}
+        {{ field }}
+    </div>
 {% endfor %}
 <input type="submit" name="btn_submit" value="Submit" />

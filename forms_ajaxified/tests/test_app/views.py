@@ -16,5 +16,5 @@ class DummyFormView(FormView):
     def dispatch(self, request, *args, **kwargs):
         # We don't want to deal with create views, only update views. If the
         # object doesn't exist already, we just create it.
-        models.DummyModel.get_or_create(pk=kwargs.get('pk'))
+        models.DummyModel.objects.get_or_create(pk=kwargs.get('pk'))
         return super(DummyFormView, self).dispatch(request, *args, **kwargs)
