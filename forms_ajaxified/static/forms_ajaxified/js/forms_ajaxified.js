@@ -35,7 +35,7 @@
                 return;
             }
             event.preventDefault();
-            submit_form(url, $form);
+            submit_form($form, url);
         });
     }
 
