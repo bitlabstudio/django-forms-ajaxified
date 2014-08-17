@@ -66,6 +66,17 @@ initialisations, activate the jQuery plugin:
         });
     </script>
 
+If you are using Bootstrap, you can add a green border around an input element
+via CSS transitions similar to the blue border when the element is focused.
+Simply add the following to your project's styles:
+
+.. code-block:: less
+
+    input.success, textarea.success, select.success {
+        @color-rgba: rgba(red(@brand-success), green(@brand-success), blue(@brand-success), .6);
+        border-color: @color-rgba;
+        .box-shadow(~"inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px @{color-rgba}");
+    }
 
 Usage
 -----

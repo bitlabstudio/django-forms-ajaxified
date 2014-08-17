@@ -18,6 +18,7 @@ class AjaxFormView(FormView):
         return super(AjaxFormView, self).form_valid(form)
 
     def form_valid(self, form):
+        form.save()
         if self.request.is_ajax():
             return HttpResponse(
                 json.dumps({

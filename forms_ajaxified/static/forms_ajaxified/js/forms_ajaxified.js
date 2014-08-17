@@ -64,7 +64,12 @@
                 $('.error-message').remove();
 
                 if (data.success === 1) {
-                    console.log('success: ' + data.trigger_element);
+                    var $trigger_element = $('#' + data.trigger_element);
+                    $trigger_element.addClass('success');
+                    function remove_class() {
+                        $trigger_element.removeClass('success');
+                    }
+                    window.setTimeout(remove_class, 500);
                     return
                 }
 
