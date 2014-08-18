@@ -2,19 +2,36 @@
 import json
 
 from django.http import HttpResponse
+from django.shortcuts import redirect
 
 
 class AjaxFormViewMixin(object):
     """Turns a FormView into a special view that can handle AJAX requests."""
+    def dispatch(self, request, *args, **kwargs):
+        if 'skip_form' in request.REQUEST:
+            self.kwargs = kwargs
+            self.object = self.get_object()
+            return redirect(self.get_success_url())
+        return super(AjaxFormViewMixin, self).dispatch(
+            request, *args, **kwargs)
+
     def form_invalid(self, form):
         if self.request.is_ajax():
+            errors = {}
+            for field_name, field_errors in form.errors.items():
+                field = 'id_'
+                if form.prefix:
+                    field += str(form.prefix)
+                    field += '-'
+                field += field_name
+                errors[field] = field_errors
             return HttpResponse(
                 json.dumps({
                     'success': 0,
                     'trigger_element': self.request.REQUEST['trigger_element'],
-                    'errors': form.errors,
+                    'errors': errors,
                 }), mimetype='application/json')
-        return super(AjaxFormViewMixin, self).form_valid(form)
+        return super(AjaxFormViewMixin, self).form_invalid(form)
 
     def form_valid(self, form):
         self.object = form.save()

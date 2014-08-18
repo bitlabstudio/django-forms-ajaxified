@@ -76,10 +76,14 @@
                 var error_fields = Object.keys(data.errors);
                 for (var i = 0; i < error_fields.length; i++) {
                     var field = error_fields[i];
-                    var $field = $('#id_' + field);
+                    var $field = $('#' + field);
                     var $form_group = $field.closest('.form-group');
                     $form_group.addClass('has-error');
-                    $('<label class="control-label error-message" for="'+ $field.attr('id') +'">'+ data.errors[field][0] +'</label>').insertAfter($field);
+                    var $field_or_group = $field.closest('.input-group');
+                    if ($field_or_group.length === 0) {
+                        $field_or_group = $field;
+                    }
+                    $('<label class="control-label error-message" for="'+ $field.attr('id') +'">'+ data.errors[field][0] +'</label>').insertAfter($field_or_group);
                 }
             }
         );
