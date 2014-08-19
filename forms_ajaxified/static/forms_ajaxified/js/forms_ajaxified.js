@@ -62,6 +62,7 @@
                 // remove markup manipulation from last submit
                 $('.form-group').removeClass('has-error');
                 $('.error-message').remove();
+                $form.find('[data-class="form-non-field-errors"]').hide();
 
                 if (data.success === 1) {
                     var $trigger_element = $('#' + data.trigger_element);
@@ -76,14 +77,20 @@
                 var error_fields = Object.keys(data.errors);
                 for (var i = 0; i < error_fields.length; i++) {
                     var field = error_fields[i];
-                    var $field = $('#' + field);
-                    var $form_group = $field.closest('.form-group');
-                    $form_group.addClass('has-error');
-                    var $field_or_group = $field.closest('.input-group');
-                    if ($field_or_group.length === 0) {
-                        $field_or_group = $field;
+                    if (field === 'id___all__') {
+                        var $non_field_errors = $form.find('[data-class="form-non-field-errors"]');
+                        $non_field_errors.html(data.errors[field]);
+                        $non_field_errors.show();
+                    } else {
+                        var $field = $('#' + field);
+                        var $form_group = $field.closest('.form-group');
+                        $form_group.addClass('has-error');
+                        var $field_or_group = $field.closest('.input-group');
+                        if ($field_or_group.length === 0) {
+                            $field_or_group = $field;
+                        }
+                        $('<label class="control-label error-message" for="'+ $field.attr('id') +'">'+ data.errors[field] +'</label>').insertAfter($field_or_group);
                     }
-                    $('<label class="control-label error-message" for="'+ $field.attr('id') +'">'+ data.errors[field][0] +'</label>').insertAfter($field_or_group);
                 }
             }
         );

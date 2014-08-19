@@ -24,18 +24,20 @@ class AjaxFormViewMixin(object):
                     field += str(form.prefix)
                     field += '-'
                 field += field_name
-                errors[field] = field_errors
+                errors[field] = field_errors.as_ul()
             return HttpResponse(
                 json.dumps({
                     'success': 0,
-                    'trigger_element': self.request.REQUEST['trigger_element'],
+                    'trigger_element': self.request.REQUEST.get(
+                        'trigger_element', ''),
                     'errors': errors,
                 }), mimetype='application/json')
         return super(AjaxFormViewMixin, self).form_invalid(form)
 
     def form_valid(self, form):
         self.object = form.save()
-        if self.request.is_ajax():
+        form_valid_redirect = self.request.REQUEST.get('form_valid_redirect')
+        if self.request.is_ajax() and not form_valid_redirect:
             return HttpResponse(
                 json.dumps({
                     'success': 1,
