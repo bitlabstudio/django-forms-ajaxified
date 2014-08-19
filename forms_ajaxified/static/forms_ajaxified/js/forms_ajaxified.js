@@ -7,17 +7,17 @@
 //
 
 (function( $ ) {
-    function load_form($form, url) {
+    function load_form($form, url, options) {
         // Sends initial GET request to load the form and inject it into the
         // DOM
         //
         $.get(url, function(data) {
             $form.html(data);
-            register_handlers($form, url);
+            register_handlers($form, url, options);
         })
     }
 
-    function register_handlers($form, url) {
+    function register_handlers($form, url, options) {
         // Loads change handlers for self-submitting forms
         //
         $form.find('input,select,textarea').off('change');
@@ -26,7 +26,7 @@
                 return;
             }
             var inputElementId = $(this).attr('id');
-            submit_form($form, url, inputElementId);
+            submit_form($form, url, inputElementId, options);
         });
 
         $form.find('[type="submit"]').off('click');
@@ -35,11 +35,11 @@
                 return;
             }
             event.preventDefault();
-            submit_form($form, url);
+            submit_form($form, url, '', options);
         });
     }
 
-    function submit_form($form, url, inputElementId) {
+    function submit_form($form, url, inputElementId, options) {
         // Submits the form and handles the returned JSON response
         //
         var data = $form.serialize();
@@ -97,9 +97,9 @@
             var url = $form.attr('action');
             if ($form.html() === '') {
                 $form.html('Loading...');
-                load_form($form, url);
+                load_form($form, url, options);
             } else {
-                register_handlers($form, url);
+                register_handlers($form, url, options);
             }
 
         });
