@@ -25,8 +25,7 @@
             if ($(this).attr('data-selfsubmitting-ignore')) {
                 return;
             }
-            var inputElementId = $(this).attr('id');
-            submit_form($form, url, inputElementId, options);
+            submit_form($form, url, $(this), options);
         });
 
         $form.find('[type="submit"]').off('click');
@@ -35,19 +34,33 @@
                 return;
             }
             event.preventDefault();
-            submit_form($form, url, '', options);
+            submit_form($form, url, $(this), options);
         });
     }
 
-    function submit_form($form, url, inputElementId, options) {
+    function submit_form($form, url, $inputElement, options) {
         // Submits the form and handles the returned JSON response
         //
         var data = $form.serialize();
+        var inputElementId = $inputElement.attr('id');
 
         if (data === '') {
             data = 'trigger_element=' + inputElementId;
         } else {
             data += '&trigger_element=' + inputElementId;
+        }
+
+        var original_value = '';
+        if ($inputElement.attr('type') === 'submit') {
+            // Disable button to prevent multiple submits
+            if ($inputElement.get(0).tagName === 'BUTTON') {
+                original_value = $inputElement.text();
+                $inputElement.text('Loading..');
+            } else {
+                original_value = $inputElement.val();
+                $inputElement.val('Loading..');
+            }
+            $inputElement.prop('disabled', true)
         }
 
         $.post(
@@ -63,6 +76,15 @@
                 $('.form-group').removeClass('has-error');
                 $('.error-message').remove();
                 $form.find('[data-class="form-non-field-errors"]').hide();
+                if ($inputElement.attr('type') === 'submit') {
+                    // Enable button again
+                    if ($inputElement.get(0).tagName === 'BUTTON') {
+                        $inputElement.text(original_value);
+                    } else {
+                        $inputElement.val(original_value);
+                    }
+                    $inputElement.prop('disabled', false)
+                }
 
                 if (data.success === 1) {
                     var $trigger_element = $('#' + data.trigger_element);
