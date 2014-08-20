@@ -55,10 +55,10 @@
             // Disable button to prevent multiple submits
             if ($inputElement.get(0).tagName === 'BUTTON') {
                 original_value = $inputElement.text();
-                $inputElement.text('Loading..');
+                $inputElement.text('Submitting..');
             } else {
                 original_value = $inputElement.val();
-                $inputElement.val('Loading..');
+                $inputElement.val('Submitting..');
             }
             $inputElement.prop('disabled', true)
         }
