@@ -1,4 +1,4 @@
-// jQuery plugin to load a form via ajax and turn it into a self-submitting
+// jQuery plugin to load a form via AJAX and turn it into a self-submitting
 // form.
 //
 // Usage:
@@ -18,7 +18,7 @@
     }
 
     function register_handlers($form, url, options) {
-        // Loads change handlers for self-submitting forms
+        // Registers change event handlers for self-submitting forms
         //
         $form.find('input,select,textarea').off('change');
         $form.find('input,select,textarea').on('change', function() {
@@ -39,7 +39,9 @@
     }
 
     function submit_form($form, url, $inputElement, options) {
-        // Submits the form and handles the returned JSON response
+        // Submits the form and handles the returned JSON response.
+        //
+        // Displays error messages next to the fields or a success indicator.
         //
         var data = $form.serialize();
         var inputElementId = $inputElement.attr('id');

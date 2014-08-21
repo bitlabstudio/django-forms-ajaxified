@@ -16,8 +16,8 @@ A reusable Django app that allows to submit forms via AJAX.
 **Features:**
 
 1. Error messages are displayed next to the field, when they happen
-2. A visual indicator is displayed next to the field that has just lost the
-   focus to indicate that this value has been saved.
+2. A visual indicator is displayed on the field that has just been changed to
+   indicate that this value has been saved.
 
 
 Installation
@@ -108,18 +108,18 @@ read the ``action`` attribute and send an AJAX GET request to the ``action``
 view and initially retrieve the returned partial.
 
 Now you should write a simple Form and a FormView that returns the partial
-template that renders this form. By adding the ``AjaxifiedFormMixin`` you teach
-your form to return proper JSON responses when handling POST requests. We only
-show a code snippet for one such FormView but you could have many of them and
-load them all in a TemplateView that ties everything together:
+template that renders this form. By adding the ``AjaxFormViewMixin`` you
+enable your view to return proper JSON responses when handling POST requests.
+We only show a code snippet for one such FormView but you could have many of
+them and load them all in a TemplateView that ties everything together:
 
 .. code-block:: python
 
     from django.views.generic import FormView
-    from forms_ajaxified.forms import AjaxifiedFormMixin
+    from forms_ajaxified.views import AjaxFormViewMixin
     from myapp.forms import MyForm
 
-    class MyFormView(AjaxifiedFormMixin, FormView):
+    class MyFormView(AjaxFormViewMixin, FormView):
         form_class = MyForm
         template_name = 'myapp/partials/my_form.html'
 
@@ -141,7 +141,6 @@ happen, they will appear next to their fields. If data was saved successfully,
 a visual indicator will inform the user about this. In theory, the form would
 not even need a submit button, it is up to the developer to decide if it should
 be there or not.
-
 
 Contribute
 ----------
