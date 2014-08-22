@@ -5,8 +5,24 @@
 //
 // $('[data-class="form_ajaxified"]').formsAjaxified();
 //
+// Possible options:
+//
+// * default_loading_text - string representing the loading text that should
+//   appear on a submit button when submitting. Default is `Submitting...`
+//
 
 (function( $ ) {
+    function get_loading_text($submit_button, options) {
+        var loading_text = $submit_button.attr('data-loading-text');
+        if (!loading_text) {
+            loading_text = options.default_loading_text;
+        }
+        if (!loading_text) {
+            loading_text = 'Submitting...';
+        }
+        return loading_text;
+    }
+
     function load_form($form, url, options) {
         // Sends initial GET request to load the form and inject it into the
         // DOM
@@ -52,15 +68,16 @@
             data += '&trigger_element=' + inputElementId;
         }
 
+        var loading_text = get_loading_text($inputElement, options);
         var original_value = '';
         if ($inputElement.attr('type') === 'submit') {
             // Disable button to prevent multiple submits
             if ($inputElement.get(0).tagName === 'BUTTON') {
                 original_value = $inputElement.text();
-                $inputElement.text('Submitting..');
+                $inputElement.text(loading_text);
             } else {
                 original_value = $inputElement.val();
-                $inputElement.val('Submitting..');
+                $inputElement.val(loading_text);
             }
             $inputElement.prop('disabled', true)
         }
@@ -123,6 +140,9 @@
     $.fn.formsAjaxified = function(options) {
         // Main function of the jQuery plugin
         //
+        if (!options) {
+            options = {};
+        }
         return this.each(function() {
             var $form = $(this);
             var url = $form.attr('action');

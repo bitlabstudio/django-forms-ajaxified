@@ -142,6 +142,37 @@ a visual indicator will inform the user about this. In theory, the form would
 not even need a submit button, it is up to the developer to decide if it should
 be there or not.
 
+jQuery Plugin Options
+---------------------
+
+The jQuery plugin supports the following options:
+
+default_loading_text
+++++++++++++++++++++
+
+Default: `Submitting...`
+
+Set this if you want to use a different text to be shown on submit buttons when
+submitting the form. The original button text will be replaced with this one
+and the button will be disabled. When the request returns, the changes will
+be undone.
+
+jQuery Plugin Data Attributes
+-----------------------------
+
+The following data attributes allow to adjust the behaviour of the plugin:
+
+data-id="form_ajaxified"
+++++++++++++++++++++++++
+
+Set this attribute on all forms that should be controlled by this app.
+
+data-loading-text="Loading..."
+++++++++++++++++++++++++++++++
+
+Set this attribute on submit buttons that should have special loading texts.
+This overrides the plugin option `default_loading_text`.
+
 Contribute
 ----------
 
