@@ -7,7 +7,7 @@ from . import views
 urlpatterns = patterns(
     '',
     url(r'dummy-form/(?P<pk>\d+)/$',
-        views.DummyFormView.as_view(),
+        views.DummyUpdateView.as_view(),
         name='dummy_form_view'),
     url(r'$',
         views.DummyTemplateView.as_view(),

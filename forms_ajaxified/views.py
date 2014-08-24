@@ -8,6 +8,7 @@ from django.shortcuts import redirect
 class AjaxFormViewMixin(object):
     """Turns a FormView into a special view that can handle AJAX requests."""
     def dispatch(self, request, *args, **kwargs):
+        self.request = request
         if 'skip_form' in request.REQUEST:
             self.kwargs = kwargs
             if hasattr(self, 'get_object'):
