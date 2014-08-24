@@ -10,7 +10,8 @@ class AjaxFormViewMixin(object):
     def dispatch(self, request, *args, **kwargs):
         if 'skip_form' in request.REQUEST:
             self.kwargs = kwargs
-            self.object = self.get_object()
+            if hasattr(self, 'get_object'):
+                self.object = self.get_object()
             return redirect(self.get_success_url())
         return super(AjaxFormViewMixin, self).dispatch(
             request, *args, **kwargs)
