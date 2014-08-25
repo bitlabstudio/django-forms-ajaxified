@@ -23,6 +23,14 @@
         return loading_text;
     }
 
+    function get_interval($element) {
+        var interval = $element.attr('data-autosave-interval');
+        if (!interval) {
+            return 15000;
+        }
+        return interval;
+    }
+
     function load_form($form, url, options) {
         // Sends initial GET request to load the form and inject it into the
         // DOM
@@ -51,6 +59,21 @@
             }
             event.preventDefault();
             submit_form($form, url, $(this), options);
+        });
+
+        $form.find('[data-autosave="1"]').each(function() {
+            var intervalTimer = '';
+            var interval = get_interval($(this));
+            var $element = $(this);
+            $form.on('focusin', $element, function() {
+                clearInterval(intervalTimer);
+                intervalTimer = setInterval(function() {
+                   submit_form($form, url, $element, options);
+                }, interval);
+            });
+            $form.on('focusout', $element, function() {
+                clearInterval(intervalTimer);
+            });
         });
     }
 

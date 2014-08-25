@@ -173,6 +173,18 @@ data-loading-text="Loading..."
 Set this attribute on submit buttons that should have special loading texts.
 This overrides the plugin option `default_loading_text`.
 
+data-autosave="1"
++++++++++++++++++
+
+Set this attribute on input elements and they will trigger a form submit every
+15 seconds.
+
+data-autosave-interval="1000"
++++++++++++++++++++++++++++++
+
+Set this attribute alongside `data-autosave` to override the default interval
+of 15 seconds. The value represents milliseconds.
+
 Contribute
 ----------
 
