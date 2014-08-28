@@ -75,6 +75,12 @@
                 clearInterval(intervalTimer);
             });
         });
+
+        $('body').off('click', '[data-ajax-add="1"]');
+        $('body').on('click', '[data-ajax-add="1"]', function(event) {
+            event.preventDefault();
+            console.log(1);
+        });
     }
 
     function submit_form($form, url, $inputElement, options) {

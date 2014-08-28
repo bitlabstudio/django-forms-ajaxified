@@ -1,9 +1,18 @@
 {% extends "base.html" %}
-{% load static %}
+{% load i18n static %}
 
 {% block main %}
-<h1>Dummy Template</h1>
-<form method="post" action="{% url "dummy_form_view" pk=1 %}" data-class="form_ajaxified"></form>
+<h1>{% trans "Dummy Template" %}</h1>
+<div data-id="dummy-form-wrapper">
+    {% for object in objects %}
+        <form method="post" action="{% url "dummy_form_view" pk=object.pk %}" data-class="form_ajaxified"></form>
+    {% endfor %}
+</div>
+
+<form method="post" action="{% url "dummy_create_view" %}">
+    {% csrf_token %}
+    <button type="submit" data-ajax-add="1">{% trans "Add object" %}</button>
+</form>
 {% endblock %}
 
 {% block extra_script %}

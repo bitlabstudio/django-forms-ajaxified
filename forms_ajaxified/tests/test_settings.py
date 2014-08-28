@@ -26,6 +26,7 @@ STATIC_ROOT = os.path.join(APP_ROOT, '../app_static')
 MEDIA_ROOT = os.path.join(APP_ROOT, '../app_media')
 STATICFILES_DIRS = (
     os.path.join(APP_ROOT, 'static'),
+    os.path.join(APP_ROOT, 'tests/test_app/static'),
 )
 
 TEMPLATE_DIRS = (
