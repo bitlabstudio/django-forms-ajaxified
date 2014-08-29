@@ -5,13 +5,13 @@
 <h1>{% trans "Dummy Template" %}</h1>
 <div data-id="dummy-form-wrapper">
     {% for object in objects %}
-        <form method="post" action="{% url "dummy_form_view" pk=object.pk %}" data-class="form_ajaxified"></form>
+        {% include "test_app/partials/dummy_form_wrapper.html" %}
     {% endfor %}
 </div>
 
 <form method="post" action="{% url "dummy_create_view" %}">
     {% csrf_token %}
-    <button type="submit" data-ajax-add="1">{% trans "Add object" %}</button>
+    <button type="submit" data-ajax-add="1" data-ajax-add-wrapper="[data-id='dummy-form-wrapper']">{% trans "Add object" %}</button>
 </form>
 {% endblock %}
 

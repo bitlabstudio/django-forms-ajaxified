@@ -41,6 +41,16 @@
         })
     }
 
+    function create_object($form, url, $wrapper, options) {
+        var data = $form.serialize();
+        $.post(url, data, function(data) {
+            $wrapper.append(data);
+            $new_form = $wrapper.find('[data-class="form_ajaxified"]').last();
+            var form_url = $new_form.attr('action');
+            load_form($new_form, form_url, options);
+        })
+    }
+
     function register_handlers($form, url, options) {
         // Registers change event handlers for self-submitting forms
         //
@@ -79,7 +89,11 @@
         $('body').off('click', '[data-ajax-add="1"]');
         $('body').on('click', '[data-ajax-add="1"]', function(event) {
             event.preventDefault();
-            console.log(1);
+            var wrapper = $(this).attr('data-ajax-add-wrapper');
+            var $wrapper = $(wrapper);
+            var $form = $(this).closest('form');
+            var url = $form.attr('action');
+            create_object($form, url, $wrapper, options);
         });
     }
 

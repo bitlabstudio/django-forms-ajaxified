@@ -9,10 +9,10 @@ from . import models
 
 
 class DummyCreateView(TemplateResponseMixin, View):
-    template_name = 'test_app/partials/dummy_form.html'
+    template_name = 'test_app/partials/dummy_form_wrapper.html'
 
     def post(self, request, *args, **kwargs):
-        self.object = models.DummyModel.objects.create(title='New title')
+        self.object = models.DummyModel.objects.create(title='Foo')
         self.form = forms.DummyForm(prefix=self.object.pk, instance=self.object)
         context = {'object': self.object, 'form': self.form, }
         return self.render_to_response(context, **kwargs)
