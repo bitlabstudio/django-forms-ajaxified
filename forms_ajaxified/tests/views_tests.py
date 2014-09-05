@@ -50,3 +50,25 @@ class AjaxFormViewMixinTestCase(TestCase):
         resp = views.DummyFormView().dispatch(req)
         self.assertTrue(isinstance(resp, TemplateResponse), msg=(
             'If called via non-ajax, it should return the partial template'))
+
+    def test_form_valid(self):
+        req = RequestFactory().post(
+            '/', HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+            data={'title': '123', 'trigger_element': 'id_title'})
+        resp = views.DummyFormView().dispatch(req)
+        result = json.loads(resp.content)
+        self.assertTrue('success' in result, msg=(
+            'If the form is valid, the JSON response should contain'
+            ' `success=1`'))
+
+        req = RequestFactory().post(
+            '/', HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+            data={
+                'title': '123',
+                'trigger_element': 'id_title',
+                'form_valid_redirect': '1'})
+        resp = views.DummyFormView().dispatch(req)
+        self.assertEqual(resp.status_code, 302, msg=(
+            'If the form is valid and had a hidden field called'
+            ' `form_valid_redirect`, it should not return a JSON response but'
+            ' should redirect to the success URL as usual'))
