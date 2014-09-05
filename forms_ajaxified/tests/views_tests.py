@@ -5,6 +5,7 @@ from django.test import RequestFactory, TestCase
 from django.template.response import TemplateResponse
 
 from .test_app import views
+from .test_app import models
 
 
 class AjaxFormViewMixinTestCase(TestCase):
@@ -33,6 +34,16 @@ class AjaxFormViewMixinTestCase(TestCase):
             'Should return a JSON dict which contains the form errors'))
         self.assertEqual(result['trigger_element'], 'id_title', msg=(
             'Should return the trigger element'))
+
+        obj = models.DummyModel.objects.create()
+        req = RequestFactory().post(
+            '/', HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+            data={'1-title': '1234', 'trigger_element': 'id_1-title'})
+        resp = views.DummyUpdateView().dispatch(req, pk=obj.pk)
+        result = json.loads(resp.content)
+        self.assertTrue('id_1-title' in result['errors'], msg=(
+            'If the form has a prefix, the error result should also have'
+            ' prefixed field names'))
 
         req = RequestFactory().post(
             '/', data={'title': '1234', 'trigger_element': 'id_title'})
