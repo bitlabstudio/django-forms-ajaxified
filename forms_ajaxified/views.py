@@ -5,6 +5,21 @@ from django.http import HttpResponse
 from django.shortcuts import redirect
 
 
+class AjaxDeleteViewMixin(object):
+    """Turns any view into a delete view for a given ContentType and PK."""
+    def post(self, request, *args, **kwargs):
+        try:
+            obj = self.get_object()
+            obj.delete()
+            return HttpResponse(
+                json.dumps({'success': 1, }),
+                mimetype='application/json')
+        except Exception, ex:
+            return HttpResponse(
+                json.dumps({'error': ex.message, }),
+                mimetype='application/json')
+
+
 class AjaxFormViewMixin(object):
     """Turns a FormView into a special view that can handle AJAX requests."""
     def dispatch(self, request, *args, **kwargs):

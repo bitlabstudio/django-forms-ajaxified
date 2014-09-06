@@ -9,7 +9,7 @@ urlpatterns = patterns(
     url(r'dummy-form/create/$',
         views.DummyCreateView.as_view(),
         name='dummy_create_view'),
-    url(r'dummy-form/delete/(?P<ctype_pk>\d+)/(?P<object_pk>\d+)/$',
+    url(r'dummy-form/delete/(?P<pk>\d+)/$',
         views.DummyDeleteView.as_view(),
         name='dummy_delete_view'),
     url(r'dummy-form/(?P<pk>\d+)/$',

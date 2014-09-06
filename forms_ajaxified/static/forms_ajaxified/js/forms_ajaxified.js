@@ -150,11 +150,17 @@
 
                 if (data.success === 1) {
                     var $trigger_element = $('#' + data.trigger_element);
-                    $trigger_element.addClass('success');
-                    function remove_class() {
-                        $trigger_element.removeClass('success');
+                    var is_delete_form = $form.attr('data-ajax-delete');
+                    if (is_delete_form) {
+                        $(is_delete_form).remove();
+                        $form.remove();
+                    } else {
+                        $trigger_element.addClass('success');
+                        function remove_class() {
+                            $trigger_element.removeClass('success');
+                        }
+                        window.setTimeout(remove_class, 500);
                     }
-                    window.setTimeout(remove_class, 500);
                     return
                 }
 
@@ -181,7 +187,7 @@
     }
 
     $.fn.formsAjaxified = function(options) {
-        // Main function of the jQuery plugin
+        // Main function for general forms plugin.
         //
         if (!options) {
             options = {};

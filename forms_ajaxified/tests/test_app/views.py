@@ -1,9 +1,14 @@
 """Dummy views for the tests of the forms_ajaxified app."""
-from django.contrib.contenttypes.models import ContentType
-from django.views.generic import FormView, TemplateView, UpdateView, View
+from django.views.generic import (
+    DeleteView,
+    FormView,
+    TemplateView,
+    UpdateView,
+    View,
+)
 from django.views.generic.base import TemplateResponseMixin
 
-from forms_ajaxified.views import AjaxFormViewMixin
+from forms_ajaxified.views import AjaxDeleteViewMixin, AjaxFormViewMixin
 
 from . import forms
 from . import models
@@ -19,12 +24,8 @@ class DummyCreateView(TemplateResponseMixin, View):
         return self.render_to_response(context, **kwargs)
 
 
-class DummyDeleteView(View):
-    def post(self, request, *args, **kwargs):
-        ctype = ContentType.objects.get(pk=kwargs.get('ctype_pk'))
-        obj = ctype.get_object_for_this_type(pk=kwargs.get('object_pk'))
-        obj.delete()
-        return ''
+class DummyDeleteView(AjaxDeleteViewMixin, DeleteView):
+    model = models.DummyModel
 
 
 class DummyTemplateView(TemplateView):

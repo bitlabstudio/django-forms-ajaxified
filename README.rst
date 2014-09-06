@@ -147,6 +147,8 @@ jQuery Plugin Options
 
 The jQuery plugin supports the following options:
 
+TODO: Describe data-ajax-add and data-ajax-delete
+
 default_loading_text
 ++++++++++++++++++++
 
