@@ -8,6 +8,24 @@ from .test_app import views
 from .test_app import models
 
 
+class AjaxDeleteViewMixinTestCase(TestCase):
+    """Tests for the ``AjaxDeleteViewMixin`` class."""
+    longMessage = True
+
+    def test_post(self):
+        models.DummyModel.objects.create()
+        req = RequestFactory().post('/')
+        result = views.DummyDeleteView().dispatch(req, pk=1)
+        self.assertEqual(models.DummyModel.objects.all().count(), 0, msg=(
+            'After calling the view, the only object that was in the database'
+            ' should now be deleted'))
+
+        result = views.DummyDeleteView().dispatch(req, pk=1)
+        self.assertTrue('error' in result.content, msg=(
+            'If the view generates an error, the error should be returned'
+            ' as a JSON response'))
+
+
 class AjaxFormViewMixinTestCase(TestCase):
     """Tests for the ``AjaxFormViewMixin`` class."""
     longMessage = True

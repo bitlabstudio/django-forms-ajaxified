@@ -8,6 +8,8 @@ from django.shortcuts import redirect
 class AjaxDeleteViewMixin(object):
     """Turns any view into a delete view for a given ContentType and PK."""
     def post(self, request, *args, **kwargs):
+        self.request = request
+        self.kwargs = kwargs
         try:
             obj = self.get_object()
             obj.delete()
