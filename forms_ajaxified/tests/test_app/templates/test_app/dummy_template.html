@@ -11,7 +11,7 @@
 
 <form method="post" action="{% url "dummy_create_view" %}">
     {% csrf_token %}
-    <button type="submit" data-ajax-add="1" data-ajax-add-wrapper="[data-id='dummy-form-wrapper']">{% trans "Add object" %}</button>
+    <button type="submit" data-ajax-add-wrapper="[data-id='dummy-form-wrapper']">{% trans "Add object" %}</button>
 </form>
 {% endblock %}
 

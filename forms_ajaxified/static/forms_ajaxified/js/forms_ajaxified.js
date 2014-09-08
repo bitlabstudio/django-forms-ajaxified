@@ -86,8 +86,8 @@
             });
         });
 
-        $('body').off('click', '[data-ajax-add="1"]');
-        $('body').on('click', '[data-ajax-add="1"]', function(event) {
+        $('body').off('click', '[data-ajax-add-wrapper]');
+        $('body').on('click', '[data-ajax-add-wrapper]', function(event) {
             event.preventDefault();
             var wrapper = $(this).attr('data-ajax-add-wrapper');
             var $wrapper = $(wrapper);
@@ -150,7 +150,7 @@
 
                 if (data.success === 1) {
                     var $trigger_element = $('#' + data.trigger_element);
-                    var is_delete_form = $form.attr('data-ajax-delete');
+                    var is_delete_form = $form.attr('data-ajax-delete-element');
                     if (is_delete_form) {
                         $(is_delete_form).remove();
                         $form.remove();

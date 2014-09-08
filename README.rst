@@ -147,8 +147,6 @@ jQuery Plugin Options
 
 The jQuery plugin supports the following options:
 
-TODO: Describe data-ajax-add and data-ajax-delete
-
 default_loading_text
 ++++++++++++++++++++
 
@@ -186,6 +184,24 @@ data-autosave-interval="1000"
 
 Set this attribute alongside `data-autosave` to override the default interval
 of 15 seconds. The value represents milliseconds.
+
+data-ajax-add-wrapper="[data-id='some-element']"
+++++++++++++++++++++++++++++++++++++++++++++++++
+
+If you have an "Add item" button somewhere on your page that should create
+a new item and display a new partial form to edit that new item, you can
+add this attribute to the button element. The value of the attribtue should
+be a selector that selects the wrapper element that should get the new form
+partial appended.
+
+data-ajax-delete-element="[data-id='some-element']"
++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+If you have "Delete item" buttons on your page that should delete a form
+partial from your page, you can add this attribute to the button element. The
+value of the attribtue should be a selector that selects the element that
+should be deleted. The form that contains the delete button will be deleted as
+well.
 
 Contribute
 ----------
