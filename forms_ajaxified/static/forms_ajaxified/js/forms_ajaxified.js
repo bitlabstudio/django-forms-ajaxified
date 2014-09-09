@@ -51,6 +51,16 @@
         })
     }
 
+    function delete_object($form, url, $wrapper, options) {
+        var data = $form.serialize();
+        $.post(url, data, function(data) {
+            if (data.success === 1) {
+                $wrapper.remove();
+                $form.remove();
+            }
+        })
+    }
+
     function register_handlers($form, url, options) {
         // Registers change event handlers for self-submitting forms
         //
@@ -94,6 +104,16 @@
             var $form = $(this).closest('form');
             var url = $form.attr('action');
             create_object($form, url, $wrapper, options);
+        });
+
+        $('body').off('click', '[data-ajax-delete-element]');
+        $('body').on('click', '[data-ajax-delete-element]', function(event) {
+            event.preventDefault();
+            var wrapper = $(this).attr('data-ajax-delete-element');
+            var $wrapper = $(wrapper);
+            var $form = $(this).closest('form');
+            var url = $form.attr('action');
+            delete_object($form, url, $wrapper, options);
         });
     }
 
@@ -150,17 +170,11 @@
 
                 if (data.success === 1) {
                     var $trigger_element = $('#' + data.trigger_element);
-                    var is_delete_form = $form.attr('data-ajax-delete-element');
-                    if (is_delete_form) {
-                        $(is_delete_form).remove();
-                        $form.remove();
-                    } else {
-                        $trigger_element.addClass('success');
-                        function remove_class() {
-                            $trigger_element.removeClass('success');
-                        }
-                        window.setTimeout(remove_class, 500);
+                    $trigger_element.addClass('success');
+                    function remove_class() {
+                        $trigger_element.removeClass('success');
                     }
+                    window.setTimeout(remove_class, 500);
                     return
                 }
 

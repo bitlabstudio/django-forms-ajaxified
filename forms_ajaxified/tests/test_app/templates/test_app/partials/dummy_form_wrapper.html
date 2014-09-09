@@ -1,8 +1,10 @@
 {% load forms_ajaxified_tags %}
-<form method="post" action="{% url "dummy_form_view" pk=object.pk %}" data-id="dummy-form-{{ object.pk }}" data-class="form_ajaxified"></form>
-{% get_contenttype_pk object as ctype_pk %}
-<form method="post" action="{% url "dummy_delete_view" pk=object.pk %}" data-class="form_ajaxified" data-ajax-delete-element="[data-id='dummy-form-{{ object.pk }}']">
-    {% csrf_token %}
-    <button type="submit">Delete</button>
-</form>
-<hr />
+<div data-id="dummy-form-wrapper-{{ object.pk }}">
+    <form method="post" action="{% url "dummy_form_view" pk=object.pk %}" data-id="dummy-form-{{ object.pk }}" data-class="form_ajaxified"></form>
+    {% get_contenttype_pk object as ctype_pk %}
+    <form method="post" action="{% url "dummy_delete_view" pk=object.pk %}" data-ajax-delete-element="[data-id='dummy-form-wrapper-{{ object.pk }}']">
+        {% csrf_token %}
+        <button type="submit">Delete</button>
+    </form>
+    <hr />
+</div>
