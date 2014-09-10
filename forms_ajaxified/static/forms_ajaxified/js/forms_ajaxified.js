@@ -44,8 +44,11 @@
     function create_object($form, url, $wrapper, options) {
         var data = $form.serialize();
         $.post(url, data, function(data) {
-            $wrapper.append(data);
+            var $data = $(data);
+            $data.hide();
+            $wrapper.append($data);
             $new_form = $wrapper.find('[data-class="form_ajaxified"]').last();
+            $data.fadeIn('slow')
             var form_url = $new_form.attr('action');
             load_form($new_form, form_url, options);
         })
@@ -55,8 +58,12 @@
         var data = $form.serialize();
         $.post(url, data, function(data) {
             if (data.success === 1) {
-                $wrapper.remove();
-                $form.remove();
+                $wrapper.fadeOut('slow', function() {
+                    $wrapper.remove();
+                });
+                $form.fadeOut('slow', function() {
+                    $form.remove();
+                });
             }
         })
     }
