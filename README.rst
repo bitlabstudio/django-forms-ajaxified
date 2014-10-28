@@ -3,7 +3,7 @@ Django Forms Ajaxified
 
 A reusable Django app that allows to submit forms via AJAX.
 
-**This is useful for two usecases:i**
+**This is useful for two usecases:**
 
 1. You have a very long form and you want to signal to your users that each
    field they fill out is saved immediately and you want to show validation
