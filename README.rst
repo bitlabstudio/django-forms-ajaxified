@@ -53,7 +53,7 @@ include:
     {% load static %}
     ...
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <script src="{% static "forms_ajaxified/js/forms_ajaxified.js" %}></script>
+    <script src="{% static "forms_ajaxified/js/forms_ajaxified.js" %}"></script>
 
 At the bottom of your ``base.html`` or whereever you run global
 initialisations, activate the jQuery plugin:
