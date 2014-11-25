@@ -1,15 +1,18 @@
-// jQuery plugin to load a form via AJAX and turn it into a self-submitting
-// form.
-//
-// Usage:
-//
-// $('[data-class="form_ajaxified"]').formsAjaxified();
-//
-// Possible options:
-//
-// * default_loading_text - string representing the loading text that should
-//   appear on a submit button when submitting. Default is `Submitting...`
-//
+/* jQuery plugin to load a form via AJAX and turn it into a self-submitting
+ * form.
+ *
+ * Usage:
+ *
+ * $('[data-class="form_ajaxified"]').formsAjaxified();
+ *
+ * Possible options:
+ *
+ * * default_loading_text - string representing the loading text that should
+ *   appear on a submit button when submitting. Default is `Submitting...`
+ * * finished - a callable, that is executed after the handlers are registered
+ *   which means also after the form was loaded
+ *
+ */
 
 (function( $ ) {
     function get_loading_text($submit_button, options) {
@@ -38,17 +41,20 @@
         $.get(url, function(data) {
             $form.html(data);
             register_handlers($form, url, options);
+            options.finished($form);
         })
     }
 
     function create_object($form, url, $wrapper, options) {
         var data = $form.serialize();
         $.post(url, data, function(data) {
-            var $data = $(data);
+            var $data = $(data),
+                $new_form;
+
             $data.hide();
             $wrapper.append($data);
             $new_form = $wrapper.find('[data-class="form_ajaxified"]').last();
-            $data.fadeIn('slow')
+            $data.fadeIn('slow');
             var form_url = $new_form.attr('action');
             load_form($new_form, form_url, options);
         })
@@ -71,6 +77,7 @@
     function register_handlers($form, url, options) {
         // Registers change event handlers for self-submitting forms
         //
+        var $body;
         $form.find('input,select,textarea').off('change');
         $form.find('input,select,textarea').on('change', function() {
             if ($(this).attr('data-selfsubmitting-ignore')) {
@@ -89,7 +96,7 @@
         });
 
         $form.find('[data-autosave="1"]').each(function() {
-            var intervalTimer = '';
+            var intervalTimer = 0;
             var interval = get_interval($(this));
             var $element = $(this);
             $form.on('focusin', $element, function() {
@@ -103,8 +110,10 @@
             });
         });
 
-        $('body').off('click', '[data-ajax-add-wrapper]');
-        $('body').on('click', '[data-ajax-add-wrapper]', function(event) {
+        $body = $('body');
+
+        $body.off('click', '[data-ajax-add-wrapper]');
+        $body.on('click', '[data-ajax-add-wrapper]', function(event) {
             event.preventDefault();
             var wrapper = $(this).attr('data-ajax-add-wrapper');
             var $wrapper = $(wrapper);
@@ -113,8 +122,8 @@
             create_object($form, url, $wrapper, options);
         });
 
-        $('body').off('click', '[data-ajax-delete-element]');
-        $('body').on('click', '[data-ajax-delete-element]', function(event) {
+        $body.off('click', '[data-ajax-delete-element]');
+        $body.on('click', '[data-ajax-delete-element]', function(event) {
             event.preventDefault();
             var wrapper = $(this).attr('data-ajax-delete-element');
             var $wrapper = $(wrapper);
@@ -210,19 +219,24 @@
     $.fn.formsAjaxified = function(options) {
         // Main function for general forms plugin.
         //
-        if (!options) {
-            options = {};
-        }
+
+        var defaults = {
+            finished: function(){},
+            default_loading_text: 'Submitting...'
+        };
+
+        $.extend(defaults, options);
+
         return this.each(function() {
             var $form = $(this);
             var url = $form.attr('action');
             if ($form.html() === '') {
                 $form.html('Loading...');
-                load_form($form, url, options);
+                load_form($form, url, defaults);
             } else {
-                register_handlers($form, url, options);
+                register_handlers($form, url, defaults);
+                defaults.finished($form);
             }
-
         });
     };
 }( jQuery ));

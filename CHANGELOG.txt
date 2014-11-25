@@ -1,4 +1,8 @@
 === (ongoing) ===
+
+- added finished callback to options, that allows to execute functions after
+  successful initialization
+
 - Initial commit
 
 
@@ -10,7 +14,7 @@
 #   version and add a new `=== (ongoing) ===` to the top of the file
 #
 # === 1.0 ===
-# - a major version is created when the software reached a milestone and is 
+# - a major version is created when the software reached a milestone and is
 #   feature complete
 #
 # === 0.2 ===
