@@ -61,6 +61,7 @@ class AjaxFormViewMixin(object):
             return HttpResponse(
                 json.dumps({
                     'success': 1,
-                    'trigger_element': self.request.REQUEST['trigger_element'],
+                    'trigger_element': self.request.REQUEST.get(
+                        'trigger_element'),
                 }), mimetype='application/json')
         return super(AjaxFormViewMixin, self).form_valid(form)

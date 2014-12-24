@@ -1,5 +1,6 @@
 === (ongoing) ===
 
+- minor fix in AjaxFormViewMixin
 - added finished callback to options, that allows to execute functions after
   successful initialization
 
