@@ -130,7 +130,7 @@ the "outer" template of the TemplateView above:
 .. code-block:: html
 
     {% for field in form %}
-        {% include "django_libs/partials/forms/form_field.html" %}
+        {% include "django_libs/partials/form_field.html" %}
     {% endfor %}
     <input type="submit" name="btn_submit" value="Submit" />
 
