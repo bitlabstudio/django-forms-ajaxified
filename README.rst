@@ -41,8 +41,24 @@ Add ``forms_ajaxified`` to your ``INSTALLED_APPS``
 
     INSTALLED_APPS = (
         ...,
+        'django_libs',
         'forms_ajaxified',
     )
+
+Add ``django_libs.middleware.AjaxRedirectMiddleware`` to your
+``MIDDLEWARE_CLASSES``
+
+.. code-block:: python
+
+    MIDDLEWARE_CLASSES = [
+        'django.middleware.common.CommonMiddleware',
+        'django.contrib.sessions.middleware.SessionMiddleware',
+        'django.middleware.csrf.CsrfViewMiddleware',
+        'django.contrib.auth.middleware.AuthenticationMiddleware',
+        'django.contrib.messages.middleware.MessageMiddleware',
+        ...
+        'django_libs.middleware.AjaxRedirectMiddleware',
+    ]
 
 In your ``base.html`` include the jQuery plugin that loads your forms and
 handles the AJAX responses. You should place it somewhere below your jQuery
