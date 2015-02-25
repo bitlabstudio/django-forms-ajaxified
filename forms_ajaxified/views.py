@@ -54,9 +54,23 @@ class AjaxFormViewMixin(object):
                 }), mimetype='application/json')
         return super(AjaxFormViewMixin, self).form_invalid(form)
 
-    def form_valid(self, form):
+    def form_valid(self, form, form_valid_redirect=None):
+        """
+        Returns JSON success response or redirects to success URL.
+
+        :param form_valid_redirect: When you leave this as ``None``, the mixin
+          tries to get the value from the POST or GET data. If you set this
+          to ``True`` or ``False``, it will override eventually set POST or
+          GET data for the key ``form_valid_redirect``.
+
+        """
         self.object = form.save()
-        form_valid_redirect = self.request.REQUEST.get('form_valid_redirect')
+        if form_valid_redirect is None:
+            form_valid_redirect = self.request.POST.get(
+                'form_valid_redirect', None)
+        if form_valid_redirect is None:
+            form_valid_redirect = self.request.GET.get(
+                'form_valid_redirect', None)
         if self.request.is_ajax() and not form_valid_redirect:
             return HttpResponse(
                 json.dumps({

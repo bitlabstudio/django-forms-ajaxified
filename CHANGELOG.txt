@@ -1,9 +1,10 @@
-=== (ongoing) ===
+=== 0.1.X (ongoing, to be released as 0.2) ===
 
 - minor fix in AjaxFormViewMixin
 - added finished callback to options, that allows to execute functions after
   successful initialization
 - added django-libs to setup.py (for AjaxRedirectMiddleware)
+- added form_valid_redirect kwarg to form_valid(), overrides POST data
 
 - Initial commit
 

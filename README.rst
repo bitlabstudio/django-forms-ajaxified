@@ -158,6 +158,43 @@ a visual indicator will inform the user about this. In theory, the form would
 not even need a submit button, it is up to the developer to decide if it should
 be there or not.
 
+Redirecting
+-----------
+
+Sometimes a successful POST to your form changes thing so drastically that
+you need to redirect to another page (i.e. when you change the title of an
+object, which also changes it's slug and you need to redirect to a new URL with
+the new slug).
+
+In this case, please add the following hidden input to your form:
+
+.. code-block:: html
+
+    <input type="hidden" name="form_valid_redirect" value="1" />
+
+Make sure that you have the ``AjaxRedirectMiddleware`` in your
+``MIDDLEWARE_CLASSES`` setting. Now your form will always redirect on a
+successful submit.
+
+If you want your form to only redirect in certain situations (i.e. only
+when the slug has been changed), you can do something like this in your view:
+
+.. code-block:: python
+
+    class MyFormView(AjaxFormViewMixin, FormView):
+        def form_valid(self, form):
+            form_valid_redirect = self.request.POST.get('form_valid_redirect')
+            if some_condition:
+                form_valid_redirect = False
+            return super(MyFormView, self).form_valid(
+                form, form_valid_redirect=form_valid_redirect)
+
+As you can see, the ``form_valid`` implementation of ``AjaxFormViewMixin``
+allows an additional kwarg ``form_valid_redirect``. When you don't pass in that
+kwarg, the mixin will try to get that value from the POST data (from your
+hidden field) but when you pass in that kwarg, it will override the POST data.
+
+
 jQuery Plugin Options
 ---------------------
 
