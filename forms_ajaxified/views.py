@@ -15,11 +15,11 @@ class AjaxDeleteViewMixin(object):
             obj.delete()
             return HttpResponse(
                 json.dumps({'success': 1, }),
-                mimetype='application/json')
+                content_type='application/json')
         except Exception, ex:
             return HttpResponse(
                 json.dumps({'error': ex.message, }),
-                mimetype='application/json')
+                content_type='application/json')
 
 
 class AjaxFormViewMixin(object):
@@ -51,7 +51,7 @@ class AjaxFormViewMixin(object):
                     'trigger_element': self.request.REQUEST.get(
                         'trigger_element', ''),
                     'errors': errors,
-                }), mimetype='application/json')
+                }), content_type='application/json')
         return super(AjaxFormViewMixin, self).form_invalid(form)
 
     def form_valid(self, form, form_valid_redirect=None):
@@ -77,5 +77,5 @@ class AjaxFormViewMixin(object):
                     'success': 1,
                     'trigger_element': self.request.REQUEST.get(
                         'trigger_element'),
-                }), mimetype='application/json')
+                }), content_type='application/json')
         return super(AjaxFormViewMixin, self).form_valid(form)
