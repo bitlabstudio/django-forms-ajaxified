@@ -16,9 +16,9 @@ class AjaxDeleteViewMixin(object):
             return HttpResponse(
                 json.dumps({'success': 1, }),
                 content_type='application/json')
-        except Exception, ex:
+        except Exception as err:
             return HttpResponse(
-                json.dumps({'error': ex.message, }),
+                json.dumps({'error': u'{}'.format(err)}),
                 content_type='application/json')
 
 
@@ -27,7 +27,7 @@ class AjaxFormViewMixin(object):
     def dispatch(self, request, *args, **kwargs):
         self.request = request
         self.kwargs = kwargs
-        if 'skip_form' in request.REQUEST:
+        if request.POST.get('skip_form', request.GET.get('skip_form')):
             self.kwargs = kwargs
             if hasattr(self, 'get_object'):
                 self.object = self.get_object()
@@ -48,8 +48,9 @@ class AjaxFormViewMixin(object):
             return HttpResponse(
                 json.dumps({
                     'success': 0,
-                    'trigger_element': self.request.REQUEST.get(
-                        'trigger_element', ''),
+                    'trigger_element': self.request.POST.get(
+                        'trigger_element', self.request.GET.get(
+                            'trigger_element')),
                     'errors': errors,
                 }), content_type='application/json')
         return super(AjaxFormViewMixin, self).form_invalid(form)
@@ -75,7 +76,8 @@ class AjaxFormViewMixin(object):
             return HttpResponse(
                 json.dumps({
                     'success': 1,
-                    'trigger_element': self.request.REQUEST.get(
-                        'trigger_element'),
+                    'trigger_element': self.request.POST.get(
+                        'trigger_element', self.request.GET.get(
+                            'trigger_element')),
                 }), content_type='application/json')
         return super(AjaxFormViewMixin, self).form_valid(form)

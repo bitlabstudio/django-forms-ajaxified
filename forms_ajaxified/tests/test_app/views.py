@@ -19,7 +19,8 @@ class DummyCreateView(TemplateResponseMixin, View):
 
     def post(self, request, *args, **kwargs):
         self.object = models.DummyModel.objects.create(title='Foo')
-        self.form = forms.DummyForm(prefix=self.object.pk, instance=self.object)
+        self.form = forms.DummyForm(prefix=self.object.pk,
+                                    instance=self.object)
         context = {'object': self.object, 'form': self.form, }
         return self.render_to_response(context, **kwargs)
 
@@ -47,6 +48,7 @@ class DummyFormView(AjaxFormViewMixin, FormView):
 
 class DummyUpdateView(AjaxFormViewMixin, UpdateView):
     model = models.DummyModel
+    fields = '__all__'
     template_name = 'test_app/partials/dummy_form.html'
 
     def dispatch(self, request, *args, **kwargs):

@@ -1,11 +1,10 @@
 """Dummy URLs for the tests of the forms_ajaxified app."""
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 
 from . import views
 
 
-urlpatterns = patterns(
-    '',
+urlpatterns = [
     url(r'dummy-form/create/$',
         views.DummyCreateView.as_view(),
         name='dummy_create_view'),
@@ -18,4 +17,4 @@ urlpatterns = patterns(
     url(r'$',
         views.DummyTemplateView.as_view(),
         name='dummy_template_view'),
-)
+]

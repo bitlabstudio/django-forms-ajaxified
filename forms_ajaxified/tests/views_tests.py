@@ -21,7 +21,7 @@ class AjaxDeleteViewMixinTestCase(TestCase):
             ' should now be deleted'))
 
         result = views.DummyDeleteView().dispatch(req, pk=1)
-        self.assertTrue('error' in result.content, msg=(
+        self.assertTrue(b'error' in result.content, msg=(
             'If the view generates an error, the error should be returned'
             ' as a JSON response'))
 
@@ -47,7 +47,7 @@ class AjaxFormViewMixinTestCase(TestCase):
             '/', HTTP_X_REQUESTED_WITH='XMLHttpRequest',
             data={'title': '1234', 'trigger_element': 'id_title'})
         resp = views.DummyFormView().dispatch(req)
-        result = json.loads(resp.content)
+        result = json.loads(resp.content.decode('utf-8'))
         self.assertTrue('id_title' in result['errors'], msg=(
             'Should return a JSON dict which contains the form errors'))
         self.assertEqual(result['trigger_element'], 'id_title', msg=(
@@ -58,7 +58,7 @@ class AjaxFormViewMixinTestCase(TestCase):
             '/', HTTP_X_REQUESTED_WITH='XMLHttpRequest',
             data={'1-title': '1234', 'trigger_element': 'id_1-title'})
         resp = views.DummyUpdateView().dispatch(req, pk=obj.pk)
-        result = json.loads(resp.content)
+        result = json.loads(resp.content.decode('utf-8'))
         self.assertTrue('id_1-title' in result['errors'], msg=(
             'If the form has a prefix, the error result should also have'
             ' prefixed field names'))
@@ -74,7 +74,7 @@ class AjaxFormViewMixinTestCase(TestCase):
             '/', HTTP_X_REQUESTED_WITH='XMLHttpRequest',
             data={'title': '123', 'trigger_element': 'id_title'})
         resp = views.DummyFormView().dispatch(req)
-        result = json.loads(resp.content)
+        result = json.loads(resp.content.decode('utf-8'))
         self.assertTrue('success' in result, msg=(
             'If the form is valid, the JSON response should contain'
             ' `success=1`'))

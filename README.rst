@@ -66,7 +66,7 @@ include:
 
 .. code-block:: html
 
-    {% load static %}
+    {% load staticfiles %}
     ...
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="{% static "forms_ajaxified/js/forms_ajaxified.js" %}"></script>

@@ -8,3 +8,4 @@ class DummyForm(forms.ModelForm):
     """Dummy form for the tests of the forms_ajaxified app."""
     class Meta:
         model = models.DummyModel
+        fields = '__all__'

@@ -32,10 +32,6 @@ from setuptools import setup, find_packages
 import forms_ajaxified as app
 
 
-dev_requires = [
-    'flake8',
-]
-
 install_requires = [
     'django',
     'django-libs',
@@ -62,7 +58,4 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     install_requires=install_requires,
-    extras_require={
-        'dev': dev_requires,
-    },
 )
